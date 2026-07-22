@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exocad DentalCAD — Control Reference</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#14161b;
+    --panel:#1b1e25;
+    --panel-2:#20242d;
+    --ink:#d8dbe2;
+    --ink-dim:#8b909c;
+    --gold:#d9a648;
+    --gold-soft:#b98c3e;
+    --line:#2b303b;
+    --key-top:#2c313c;
+    --key-bot:#191c22;
+    --key-edge:#3a4150;
+    --teal:#5aa8a0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Instrument Sans','Segoe UI',system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.55;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px 80px}
+
+  /* ---------- header ---------- */
+  header{
+    padding:56px 0 34px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:8px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',Consolas,monospace;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:14px;
+  }
+  h1{
+    font-size:clamp(28px,4.5vw,42px);
+    font-weight:700;letter-spacing:-.015em;line-height:1.1;
+  }
+  h1 span{color:var(--ink-dim);font-weight:500}
+  .sub{margin-top:12px;color:var(--ink-dim);max-width:640px}
+  .sub b{color:var(--ink);font-weight:600}
+
+  /* ---------- sticky toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:50;
+    background:linear-gradient(var(--bg) 82%,transparent);
+    padding:14px 0 18px;
+    display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+  }
+  .search{
+    flex:1;min-width:220px;
+    display:flex;align-items:center;gap:10px;
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:8px;padding:9px 14px;
+  }
+  .search:focus-within{border-color:var(--gold-soft)}
+  .search input{
+    flex:1;background:none;border:none;outline:none;
+    color:var(--ink);font:inherit;
+  }
+  .search .hint{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-dim);
+    border:1px solid var(--line);border-radius:4px;padding:1px 6px;
+  }
+  nav{display:flex;gap:6px;flex-wrap:wrap}
+  nav a{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    color:var(--ink-dim);text-decoration:none;
+    border:1px solid var(--line);border-radius:99px;
+    padding:5px 11px;transition:all .15s;
+  }
+  nav a:hover{color:var(--gold);border-color:var(--gold-soft)}
+
+  /* ---------- sections ---------- */
+  section{margin-top:44px;scroll-margin-top:86px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  h2{font-size:20px;font-weight:700;letter-spacing:-.01em}
+  .sec-tag{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    color:var(--gold);letter-spacing:.12em;text-transform:uppercase;
+  }
+  .sec-note{color:var(--ink-dim);font-size:13.5px;margin-bottom:16px;max-width:760px}
+  .sec-note kbd{transform:scale(.92);display:inline-block}
+
+  /* ---------- shortcut rows ---------- */
+  .grid{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  .row{
+    display:grid;grid-template-columns:290px 1fr;
+    gap:18px;align-items:center;
+    padding:11px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .row:last-child{border-bottom:none}
+  .row:hover{background:var(--panel-2)}
+  .row.hidden-row{display:none}
+  .keys{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+  .keys .plus{color:var(--ink-dim);font-size:12px;margin:0 1px}
+  kbd{
+    font-family:'IBM Plex Mono',Consolas,monospace;
+    font-size:12px;font-weight:500;
+    color:var(--ink);
+    background:linear-gradient(180deg,var(--key-top),var(--key-bot));
+    border:1px solid var(--key-edge);
+    border-bottom:3px solid #0d0f13;
+    border-radius:6px;
+    padding:3px 9px;
+    white-space:nowrap;
+  }
+  kbd.mouse{color:var(--teal)}
+  kbd.gold{color:var(--gold)}
+  .desc{color:var(--ink);font-size:14px}
+  .desc em{color:var(--gold);font-style:normal;font-weight:600}
+  .desc .why{display:block;color:var(--ink-dim);font-size:12.5px;margin-top:2px}
+
+  /* ---------- feature cards ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+  .card{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:18px 20px;
+  }
+  .card:hover{border-color:#3a4150}
+  .card h3{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .card h3::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--gold);flex:none}
+  .card p{color:var(--ink-dim);font-size:13.5px}
+  .card p b{color:var(--ink);font-weight:600}
+  .card kbd{transform:scale(.9);transform-origin:left center;display:inline-block}
+  .card .path{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;
+    color:var(--teal);display:block;margin-top:8px;word-break:break-all;
+  }
+
+  footer{
+    margin-top:60px;padding-top:22px;border-top:1px solid var(--line);
+    color:var(--ink-dim);font-size:12.5px;
+  }
+  footer a{color:var(--gold-soft)}
+
+  .nores{display:none;color:var(--ink-dim);padding:30px;text-align:center;font-style:italic}
+
+  @media(max-width:640px){
+    .row{grid-template-columns:1fr;gap:6px;padding:12px 16px}
+  }
+  @media print{
+    body{background:#fff;color:#111}
+    .toolbar{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">DentalCAD · 2025+ Releases · Reference</div>
+  <h1>Exocad Control Guide <span>/ hotkeys · tweaks · hidden features</span></h1>
+  <p class="sub">Everything the wizard doesn't tell you. Verified against the official exocad wiki (2025 documentation) plus lab-floor tricks pulled from working technicians. Filter with the search box — try <b>"transparency"</b>, <b>"margin"</b>, or <b>"view"</b>.</p>
+</header>
+
+<div class="toolbar">
+  <div class="search">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b909c" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+    <input id="filter" type="text" placeholder="Filter shortcuts &amp; features…" autocomplete="off">
+    <span class="hint">/</span>
+  </div>
+  <nav>
+    <a href="#camera">Camera</a>
+    <a href="#global">Global</a>
+    <a href="#groups">Groups</a>
+    <a href="#object">Object</a>
+    <a href="#wizard">Wizard</a>
+    <a href="#freeform">Free-form</a>
+    <a href="#margin">Margin</a>
+    <a href="#mesh">Mesh</a>
+    <a href="#db">DentalDB</a>
+    <a href="#hidden">Hidden</a>
+    <a href="#tweaks">Tweaks</a>
+  </nav>
+</div>
+
+<!-- ══════════════ CAMERA ══════════════ -->
+<section id="camera">
+  <div class="sec-head"><h2>Viewport &amp; Camera</h2><span class="sec-tag">01 — navigation</span></div>
+  <p class="sec-note">The numpad view snaps are the single biggest speed upgrade most techs never adopt. Anatomically mapped: 2 is bottom (occlusal from below), 8 is top.</p>
+  <div class="grid" data-searchable>
+    <div class="row"><div class="keys"><kbd class="mouse">RMB drag</kbd></div><div class="desc">Rotate view</div></div>
+    <div class="row"><div class="keys"><kbd class="mouse">RMB</kbd><span class="plus">+</span><kbd class="mouse">LMB</kbd></div><div class="desc">Pan / move view</div></div>
+    <div class="row"><div class="keys"><kbd class="mouse">Scroll wheel</kbd></div><div class="desc">Zoom in &amp; out</div></div>
+    <div class="row"><div class="keys"><kbd class="mouse">MMB click</kbd></div><div class="desc">Center view &amp; set new rotation pivot on clicked point<span class="why">Click the prep before margin work — rotation orbits it instead of drifting off-screen.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Home</kbd></div><div class="desc">Set rotation pivot to current cursor position (no click needed)</div></div>
+    <div class="row"><div class="keys"><kbd>← ↑ ↓ →</kbd></div><div class="desc">Translate camera</div></div>
+    <div class="row"><div class="keys"><kbd>PgUp</kbd><span class="plus">/</span><kbd>PgDn</kbd></div><div class="desc">Rotate camera horizontally around pivot</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">Num 1</kbd></div><div class="desc">Front view</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">Num 2</kbd></div><div class="desc">Bottom view</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">Num 3</kbd></div><div class="desc">Back view</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">Num 4</kbd><span class="plus">/</span><kbd class="gold">Num 6</kbd></div><div class="desc">Left / right view</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">Num 8</kbd></div><div class="desc">Top view</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">Num 5</kbd></div><div class="desc">Fit view to selected object — or the whole scene if nothing selected<span class="why">Instant "where am I" reset after getting lost inside a full-arch scan.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>F1</kbd></div><div class="desc">Save current viewpoint as a custom view<span class="why">Right-click the view in the menu to rename it. Save one per path of insertion on multi-unit implant cases.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>F2</kbd></div><div class="desc">Cycle through saved custom views</div></div>
+    <div class="row"><div class="keys"><kbd>F11</kbd></div><div class="desc">Full screen mode</div></div>
+  </div>
+</section>
+
+<!-- ══════════════ GLOBAL ══════════════ -->
+<section id="global">
+  <div class="sec-head"><h2>Global — Always Available</h2><span class="sec-tag">02 — anywhere in CAD</span></div>
+  <div class="grid" data-searchable>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Z</kbd><span class="plus">/</span><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Y</kbd></div><div class="desc">Undo / Redo</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>S</kbd></div><div class="desc">Save scene</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>Q</kbd></div><div class="desc">Save a screenshot directly into the project folder<span class="why">Faster than PDF export for documenting designs for the doctor or your case log.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Q</kbd></div><div class="desc"><em>Free text search</em> across tools and functions<span class="why">Exocad's command palette — type what you want instead of hunting the expert toolbar.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>R</kbd></div><div class="desc">Measurement tool (distance, thickness, spacing)</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>D</kbd></div><div class="desc">Show Distances tool — colored distance map for antagonist / adjacent spacing</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>P</kbd></div><div class="desc">Sectional view — slice through objects<span class="why">Check cement gap, connector cross-sections, and screw channel clearance without hiding anything.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></div><div class="desc">Paste image from clipboard into the scene as a 2D image<span class="why">Smile photos, shade maps, doctor's annotated screenshots — straight in, no file dialog.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>F</kbd></div><div class="desc">Toggle visibility of face scans</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>F</kbd></div><div class="desc">Render face scan in front of everything else (toggle)</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>F3</kbd></div><div class="desc">Optimize rendering for remote sessions (TeamViewer / RDP / VNC)<span class="why">Kills the laggy remote-support experience when a resupplier or exocad support dials in.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>Alt</kbd><span class="plus">+</span><kbd>F11</kbd></div><div class="desc">Kiosk mode — locked-down demo display<span class="why">Party trick for open-house days and doctor demos.</span></div></div>
+  </div>
+</section>
+
+<!-- ══════════════ GROUPS ══════════════ -->
+<section id="groups">
+  <div class="sec-head"><h2>Group Selector — Single-Letter Show/Hide</h2><span class="sec-tag">03 — visibility</span></div>
+  <p class="sec-note">Tap once to hide, again to show. The mnemonics are mostly literal — the odd ones out: <b>X</b> = ma<b>X</b>illa, <b>N</b> = ma<b>N</b>dible (only active when the case has restorations in both arches).</p>
+  <div class="grid" data-searchable>
+    <div class="row"><div class="keys"><kbd class="gold">A</kbd></div><div class="desc">Antagonist</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">S</kbd></div><div class="desc">Jaw scans</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">X</kbd></div><div class="desc">Upper jaw (ma<em>X</em>illa)</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">N</kbd></div><div class="desc">Lower jaw (ma<em>N</em>dible)</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">P</kbd></div><div class="desc">Pre-op / situ scan</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">W</kbd></div><div class="desc">Waxup scans</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">G</kbd></div><div class="desc">Gingiva scans</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">V</kbd></div><div class="desc">Virtual gingiva design</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">E</kbd></div><div class="desc">Anatomic parts</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">R</kbd></div><div class="desc">Reduced parts</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">F</kbd></div><div class="desc">Full contour parts</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">B</kbd></div><div class="desc">Crown bottoms</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">C</kbd></div><div class="desc">Connectors</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">T</kbd></div><div class="desc">Telescopes</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">M</kbd></div><div class="desc">Merged parts</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">D</kbd></div><div class="desc">DICOM data</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">I</kbd></div><div class="desc">2D images</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">O</kbd></div><div class="desc">Other</div></div>
+  </div>
+</section>
+
+<!-- ══════════════ OBJECT ══════════════ -->
+<section id="object">
+  <div class="sec-head"><h2>Object-Level Mouse Tricks</h2><span class="sec-tag">04 — point &amp; act</span></div>
+  <p class="sec-note">These act on <b>whatever is under the pointer</b> — no selection, no group selector. The fastest visibility workflow in the software once they're in muscle memory.</p>
+  <div class="grid" data-searchable>
+    <div class="row"><div class="keys"><kbd>Alt</kbd> <span class="plus">(hold)</span></div><div class="desc">Temporarily show <em>all</em> objects; release to restore previous visibility state<span class="why">"Peek" at everything without wrecking your carefully curated hide list.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd class="mouse">MMB click</kbd></div><div class="desc">Hide the object under the pointer</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd class="mouse">MMB click</kbd></div><div class="desc">Un-hide it again</div></div>
+    <div class="row"><div class="keys"><kbd>Shift</kbd><span class="plus">+</span><kbd class="mouse">MMB click</kbd></div><div class="desc">Toggle transparency of the object under the pointer<span class="why">Ghost the antagonist to check occlusal contacts while free-forming underneath it.</span></div></div>
+    <div class="row"><div class="keys"><kbd class="mouse">Right-click group</kbd></div><div class="desc">In the Group Selector: toggle transparency for an <em>entire group</em> of parts at once</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd class="mouse">LMB</kbd></div><div class="desc">Multi-select scene objects (expert mode) — the Expert toolbar then shows tools valid for the whole selection</div></div>
+  </div>
+</section>
+
+<!-- ══════════════ WIZARD ══════════════ -->
+<section id="wizard">
+  <div class="sec-head"><h2>Wizard &amp; Interface Navigation</h2><span class="sec-tag">05 — flow control</span></div>
+  <div class="grid" data-searchable>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Space</kbd></div><div class="desc">Wizard: <em>Next</em> step<span class="why">Keep your right hand on the mouse and drive the whole wizard from the left.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Backspace</kbd></div><div class="desc">Wizard: Back one step</div></div>
+    <div class="row"><div class="keys"><kbd>F1</kbd></div><div class="desc">Context help for the current wizard step</div></div>
+    <div class="row"><div class="keys"><kbd>Tab</kbd><span class="plus">/</span><kbd>Shift</kbd><span class="plus">+</span><kbd>Tab</kbd></div><div class="desc">Switch to next / previous tab in any design control panel</div></div>
+  </div>
+</section>
+
+<!-- ══════════════ FREEFORM ══════════════ -->
+<section id="freeform">
+  <div class="sec-head"><h2>Free-Forming</h2><span class="sec-tag">06 — sculpting</span></div>
+  <p class="sec-note">Number keys map to tabs in order. Learn <b>1–3</b> at minimum; you'll drop the mouse-trip to the panel entirely.</p>
+  <div class="grid" data-searchable>
+    <div class="row"><div class="keys"><kbd class="gold">1</kbd><span class="plus">/</span><kbd class="gold">2</kbd></div><div class="desc">Add–Remove / Smoothing</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">3</kbd></div><div class="desc">Adapt</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">4</kbd></div><div class="desc">Move cusps</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">5</kbd></div><div class="desc">Move tooth parts</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">6</kbd></div><div class="desc">Move entire tooth</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">7</kbd></div><div class="desc">Move ridge</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>T</kbd></div><div class="desc">Toggle <em>Hold cusp Tips</em><span class="why">Reshape anatomy without collapsing your occlusal scheme.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>U</kbd></div><div class="desc">Toggle <em>Hold eQuator</em></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>M</kbd></div><div class="desc">Restrict to occlusal movement only</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>X</kbd></div><div class="desc">Cut intersections: antagonist + gingiva + adjacents</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>A</kbd></div><div class="desc">Cut intersections: antagonist only</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>N</kbd></div><div class="desc">Cut intersections: adjacents only</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>G</kbd></div><div class="desc">Cut intersections: basal only</div></div>
+  </div>
+</section>
+
+<!-- ══════════════ MARGIN ══════════════ -->
+<section id="margin">
+  <div class="sec-head"><h2>Preparation Margin Detection</h2><span class="sec-tag">07 — margins</span></div>
+  <div class="grid" data-searchable>
+    <div class="row"><div class="keys"><kbd class="gold">1</kbd></div><div class="desc">Detect (automatic)</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">2</kbd></div><div class="desc">Correct / Draw — Edit</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">3</kbd></div><div class="desc">Correct / Draw — Magnetic</div></div>
+    <div class="row"><div class="keys"><kbd class="gold">4</kbd></div><div class="desc">Correct / Draw — Free</div></div>
+    <div class="row"><div class="keys"><kbd>+</kbd><span class="plus">/</span><kbd>−</kbd></div><div class="desc">Nudge margin line up / down</div></div>
+    <div class="row"><div class="keys"><kbd>PgUp</kbd><span class="plus">/</span><kbd>PgDn</kbd></div><div class="desc">Orbit around the prep to inspect the margin from every angle<span class="why">Faster and steadier than hand-rotating — do one full lap before accepting.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>X</kbd></div><div class="desc">Clear the margin line and start over</div></div>
+  </div>
+</section>
+
+<!-- ══════════════ MESH ══════════════ -->
+<section id="mesh">
+  <div class="sec-head"><h2>Mesh Editor / Scan Data Editor + Crown Bottoms</h2><span class="sec-tag">08 — cleanup</span></div>
+  <div class="grid" data-searchable>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>X</kbd></div><div class="desc">Delete selected mesh area</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>X</kbd></div><div class="desc">Crop — delete everything <em>except</em> the selection<span class="why">Trimming a full-arch scan down to a quadrant in one stroke.</span></div></div>
+    <div class="row"><div class="keys"><kbd class="gold">1</kbd> <kbd class="gold">2</kbd> <kbd class="gold">3</kbd></div><div class="desc">Crown / inlay / veneer bottoms: activate brushes 1–3</div></div>
+  </div>
+</section>
+
+<!-- ══════════════ DB ══════════════ -->
+<section id="db">
+  <div class="sec-head"><h2>DentalDB</h2><span class="sec-tag">09 — case setup</span></div>
+  <div class="grid" data-searchable>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd class="mouse">LMB tooth</kbd></div><div class="desc">Apply the last selected settings to another tooth<span class="why">Set up one unit fully, then Ctrl+click your way across the arch.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Shift</kbd><span class="plus">+</span><kbd class="mouse">LMB tooth</kbd></div><div class="desc">Apply last settings to <em>every</em> tooth between the last selected and the clicked one<span class="why">A 14-unit AoX setup in two clicks.</span></div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>N</kbd></div><div class="desc">New project</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>L</kbd></div><div class="desc">Load project</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>S</kbd></div><div class="desc">Save project</div></div>
+    <div class="row"><div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>D</kbd></div><div class="desc">Duplicate project<span class="why">Instant sandbox copy before trying a risky redesign — the original stays untouched.</span></div></div>
+  </div>
+</section>
+
+<!-- ══════════════ HIDDEN ══════════════ -->
+<section id="hidden">
+  <div class="sec-head"><h2>Hidden &amp; Under-Used Features</h2><span class="sec-tag">10 — power tools</span></div>
+  <p class="sec-note">Almost all of these live behind the right-click context menu or the Expert toolbar (hover the light strip at the bottom edge of the CAD window to slide it open).</p>
+  <div class="cards" data-searchable>
+    <div class="card"><h3>Magic Lantern</h3><p>Repositions the virtual light source in the scene — just drag the pop-up. Purpose-built for reading <b>tricky, shadowed margins</b> where the default lighting hides the finish line. Context menu → Magic Lantern.</p></div>
+    <div class="card"><h3>Register Meshes</h3><p>3-point alignment between <b>any</b> mesh objects in the CAD window. Align a pre-op over a prep scan, drop a diagnostic waxup onto the working model, or seat an imported STL reference — without leaving the design session.</p></div>
+    <div class="card"><h3>3D PDF Export</h3><p>Exports the current CAD view as a rotatable <b>3D PDF</b> anyone can open in Adobe Reader. The most underrated doctor-communication tool in the software — no viewer install, no portal login.</p></div>
+    <div class="card"><h3>Auto Hide</h3><p>Group Selector option that automatically hides the opposing jaw whenever your view direction faces it. Set it once and stop toggling <kbd>A</kbd> forever.</p></div>
+    <div class="card"><h3>The "Hidden" Expander</h3><p>Lost an object? Unfold the <b>Hidden</b> group in the Group Selector to see everything currently invisible, or hit <b>Show all</b> to reset visibility in one click.</p></div>
+    <div class="card"><h3>Expert Toolbar via Selection</h3><p>Click an object (or <kbd>Ctrl</kbd>-click several) and the Expert toolbar populates with <b>only the tools valid for that selection</b>. Faster than digging through the full context menu, and it teaches you what's possible per object type.</p></div>
+    <div class="card"><h3>Wizard ⇄ Expert Round-Tripping</h3><p>Suspending the wizard doesn't lose your place — press the <b>Wizard</b> button and it resumes at the exact step you left. Dip into expert mode for one surgical fix, then let the wizard carry on.</p></div>
+    <div class="card"><h3>TruSmile Toggle</h3><p>Photorealistic rendering on demand from the main toolbar. Design in flat shading for speed, flip TruSmile on only for esthetic evaluation and screenshots for the doctor.</p></div>
+    <div class="card"><h3>2D Image Overlay Hacks</h3><p>The 2D Image Loader (expert mode) accepts <b>any PNG</b> — techs load golden-ratio proportion grids and smile-design guides as semi-transparent overlays for anterior setups. Community-made overlay packs circulate on Dental Lab Network.</p></div>
+    <div class="card"><h3>Reference Meshes as Tools</h3><p>The Additional Mesh loader will import any STL into the scene — calibration spheres, custom arch guides, printable jigs — usable as visual references or Boolean partners during design.</p></div>
+  </div>
+</section>
+
+<!-- ══════════════ TWEAKS ══════════════ -->
+<section id="tweaks">
+  <div class="sec-head"><h2>Minor Tweaks &amp; Workflow Habits</h2><span class="sec-tag">11 — lab-floor wisdom</span></div>
+  <div class="cards" data-searchable>
+    <div class="card"><h3>Per-Material, Per-Client Defaults</h3><p>In DentalDB, open <b>Advanced parameters</b> on the right side of the tooth/material selection. Cement gap, milling parameters, and minimum thickness set here are <b>saved as the new default for that material and that client</b> — set once per doctor/mill combo, never touch again.</p></div>
+    <div class="card"><h3>Re-Open Sealed Designs</h3><p>Finished case but need to loosen the fit? Load it → <b>Expert</b> → delete the merged parts → jump to Crown Bottoms → adjust gaps → press <b>Wizard</b> to re-merge. No restart, no redesign.</p></div>
+    <div class="card"><h3>Crown-Bottom Edits Are Per-Case</h3><p>Gap changes made during the design phase (Crown Bottoms step) apply <b>only to that restoration</b> and won't persist. Permanent changes belong in DentalDB's advanced parameters — know which layer you're editing.</p></div>
+    <div class="card"><h3>Pivot Before You Sculpt</h3><p>Habit: <kbd class="mouse">MMB</kbd>-click the unit you're about to work on <i>before</i> starting free-forming or margin work. Every rotation then orbits your working area instead of the model centroid.</p></div>
+    <div class="card"><h3>Screenshot Trail</h3><p><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd> at every major step drops timestamped captures into the project folder — a free design-decision audit trail for remakes and doctor disputes.</p></div>
+    <div class="card"><h3>Settings Menu Depth</h3><p>The main Settings dialog (gear icon) covers language, tooth numbering scheme (FDI/Universal), and graphics options. If performance drags on older GPUs, the graphics settings here are the first stop before blaming the scan.</p></div>
+    <div class="card"><h3>Custom Views as Insertion Paths</h3><p>On cases with multiple paths of insertion, save one named custom view (<kbd>Ctrl</kbd>+<kbd>F1</kbd>) per path. <kbd>Ctrl</kbd>+<kbd>F2</kbd> then cycles your exact evaluation angles for undercut checks.</p></div>
+    <div class="card"><h3>Ctrl+Q Is the Manual</h3><p>Can't remember where a tool lives? The free-text search finds functions by name and jumps you to them. Faster than the wiki, faster than the context-menu spelunk.</p></div>
+  </div>
+</section>
+
+<footer>
+  Hotkeys verified against the official <a href="https://wiki.exocad.com/wiki/index.php/Hotkeys">exocad wiki hotkey reference</a> (2025+ releases, revision 18154). Workflow tweaks compiled from exocad's CAD Application &amp; Expert Mode documentation and technician forums. Older versions (≤3.2 Elefsina) may differ on a few bindings — the wiki keeps a legacy page.
+</footer>
+
+</div>
+
+<script>
+  const input = document.getElementById('filter');
+  const containers = document.querySelectorAll('[data-searchable]');
+
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== input) { e.preventDefault(); input.focus(); }
+    if (e.key === 'Escape') { input.value = ''; runFilter(); input.blur(); }
+  });
+
+  input.addEventListener('input', runFilter);
+
+  function runFilter(){
+    const q = input.value.trim().toLowerCase();
+    containers.forEach(c => {
+      const items = c.querySelectorAll('.row, .card');
+      let visible = 0;
+      items.forEach(el => {
+        const match = !q || el.textContent.toLowerCase().includes(q);
+        el.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      const section = c.closest('section');
+      if (section) section.style.display = visible ? '' : 'none';
+    });
+  }
+</script>
+</body>
+</html>

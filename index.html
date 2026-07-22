@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab Tools — Control References</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#14161b;
+    --panel:#1b1e25;
+    --panel-2:#20242d;
+    --ink:#d8dbe2;
+    --ink-dim:#8b909c;
+    --line:#2b303b;
+    --key-top:#2c313c;
+    --key-bot:#191c22;
+    --key-edge:#3a4150;
+    --gold:#d9a648;
+    --red:#e05a4e;
+    --teal:#5aa8a0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Instrument Sans','Segoe UI',system-ui,sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 24px;
+  }
+  .wrap{max-width:820px;width:100%}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',Consolas,monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--ink-dim);margin-bottom:16px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+  h1{
+    font-size:clamp(30px,5vw,46px);
+    font-weight:700;letter-spacing:-.02em;line-height:1.08;
+    margin-bottom:12px;
+  }
+  .sub{color:var(--ink-dim);max-width:520px;font-size:15px;line-height:1.55;margin-bottom:42px}
+  .sub kbd{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    color:var(--ink);
+    background:linear-gradient(180deg,var(--key-top),var(--key-bot));
+    border:1px solid var(--key-edge);
+    border-bottom:2px solid #0d0f13;
+    border-radius:5px;padding:1px 7px;
+  }
+
+  .guides{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:620px){.guides{grid-template-columns:1fr}}
+
+  a.guide{
+    display:block;
+    text-decoration:none;
+    color:var(--ink);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px 26px 22px;
+    position:relative;
+    overflow:hidden;
+    transition:transform .16s ease, border-color .16s ease, background .16s ease;
+  }
+  a.guide:hover, a.guide:focus-visible{
+    transform:translateY(-3px);
+    background:var(--panel-2);
+    outline:none;
+  }
+  a.guide::before{
+    content:"";
+    position:absolute;inset:0 auto 0 0;width:4px;
+    background:var(--accent);
+    opacity:.85;
+  }
+  a.guide.exo{--accent:var(--gold)}
+  a.guide.tso{--accent:var(--red)}
+  a.guide:hover{border-color:var(--accent)}
+
+  .g-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;color:var(--accent);
+    letter-spacing:.18em;text-transform:uppercase;
+    margin-bottom:14px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .g-num kbd{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    color:var(--accent);
+    background:linear-gradient(180deg,var(--key-top),var(--key-bot));
+    border:1px solid var(--key-edge);
+    border-bottom:2px solid #0d0f13;
+    border-radius:5px;padding:1px 8px;
+  }
+  .g-title{font-size:22px;font-weight:700;letter-spacing:-.015em;margin-bottom:4px}
+  .g-sysname{font-size:13px;color:var(--ink-dim);font-family:'IBM Plex Mono',monospace;margin-bottom:14px}
+  .g-desc{font-size:13.5px;color:var(--ink-dim);line-height:1.55;margin-bottom:18px}
+  .g-tags{display:flex;gap:6px;flex-wrap:wrap}
+  .g-tags span{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    color:var(--ink-dim);
+    border:1px solid var(--line);
+    border-radius:99px;padding:3px 10px;
+  }
+  .g-open{
+    position:absolute;right:22px;bottom:20px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;
+    color:var(--accent);
+    opacity:0;transform:translateX(-6px);
+    transition:opacity .16s, transform .16s;
+  }
+  a.guide:hover .g-open, a.guide:focus-visible .g-open{opacity:1;transform:none}
+
+  footer{
+    margin-top:36px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+    color:var(--ink-dim);font-size:12px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  footer .dot{color:var(--teal)}
+
+  @media (prefers-reduced-motion: reduce){
+    a.guide, .g-open{transition:none}
+    a.guide:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">UVDL · Digital Workflow · Reference Library</div>
+  <h1>Control Guides</h1>
+  <p class="sub">Hotkeys, shortcuts, and hidden features for both CAD platforms. Pick a system — or press <kbd>1</kbd> / <kbd>2</kbd>.</p>
+
+  <div class="guides">
+    <a class="guide exo" href="exocad-control-guide.html">
+      <div class="g-num"><span>Guide 01</span><kbd>1</kbd></div>
+      <div class="g-title">Exocad</div>
+      <div class="g-sysname">DentalCAD · 2025+ releases</div>
+      <div class="g-desc">Camera &amp; numpad views, single-letter group selector, free-forming, margin detection, Magic Lantern, per-material DB defaults, and the re-merge workflow.</div>
+      <div class="g-tags"><span>11 sections</span><span>hotkeys</span><span>hidden features</span></div>
+      <div class="g-open">open →</div>
+    </a>
+
+    <a class="guide tso" href="3shape-control-guide.html">
+      <div class="g-num"><span>Guide 02</span><kbd>2</kbd></div>
+      <div class="g-title">3Shape</div>
+      <div class="g-sysname">Dental System · Manager + Designer</div>
+      <div class="g-desc">Dental Manager batch selectors, the single-letter tool map, wax knife presets (Ctrl+1–6), morphing controls, module bindings, and the Shift+F4 CAM folder trick.</div>
+      <div class="g-tags"><span>8 sections</span><span>hotkeys</span><span>hidden features</span></div>
+      <div class="g-open">open →</div>
+    </a>
+  </div>
+
+  <footer>
+    <span><span class="dot">●</span> both guides work offline once loaded</span>
+    <span>qynz-code / lab-tools</span>
+  </footer>
+
+</div>
+
+<script>
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === '1') location.href = 'exocad-control-guide.html';
+    if (e.key === '2') location.href = '3shape-control-guide.html';
+  });
+</script>
+</body>
+</html>
