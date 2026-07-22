@@ -42,6 +42,15 @@
     font-size:11px;letter-spacing:.22em;text-transform:uppercase;
     color:var(--accent);margin-bottom:14px;
   }
+  .back{
+    font-family:'IBM Plex Mono',Consolas,monospace;
+    font-size:12px;color:var(--ink-dim);text-decoration:none;
+    display:inline-flex;align-items:center;gap:7px;
+    margin-bottom:22px;
+    border:1px solid var(--line);border-radius:99px;
+    padding:6px 14px;transition:all .15s;
+  }
+  .back:hover{color:var(--accent);border-color:var(--accent-soft)}
   h1{
     font-size:clamp(28px,4.5vw,42px);
     font-weight:700;letter-spacing:-.015em;line-height:1.1;
@@ -154,6 +163,7 @@
 <div class="wrap">
 
 <header>
+  <a class="back" href="index.html">← index</a>
   <div class="eyebrow">Dental System · Dental Manager + Dental Designer · Reference</div>
   <h1>3Shape Control Guide <span>/ hotkeys · tweaks · hidden features</span></h1>
   <p class="sub">Compiled from 3Shape's official shortcut list (the same one in the F1 help under <b>Appendix B — Using Mouse and Keyboard</b>) and the Dental Designer key map. Filter with the search box — try <b>"wax knife"</b>, <b>"order"</b>, or <b>"morph"</b>.</p>

@@ -43,6 +43,15 @@
     font-size:11px;letter-spacing:.22em;text-transform:uppercase;
     color:var(--gold);margin-bottom:14px;
   }
+  .back{
+    font-family:'IBM Plex Mono',Consolas,monospace;
+    font-size:12px;color:var(--ink-dim);text-decoration:none;
+    display:inline-flex;align-items:center;gap:7px;
+    margin-bottom:22px;
+    border:1px solid var(--line);border-radius:99px;
+    padding:6px 14px;transition:all .15s;
+  }
+  .back:hover{color:var(--gold);border-color:var(--gold-soft)}
   h1{
     font-size:clamp(28px,4.5vw,42px);
     font-weight:700;letter-spacing:-.015em;line-height:1.1;
@@ -166,6 +175,7 @@
 <div class="wrap">
 
 <header>
+  <a class="back" href="index.html">← index</a>
   <div class="eyebrow">DentalCAD · 2025+ Releases · Reference</div>
   <h1>Exocad Control Guide <span>/ hotkeys · tweaks · hidden features</span></h1>
   <p class="sub">Everything the wizard doesn't tell you. Verified against the official exocad wiki (2025 documentation) plus lab-floor tricks pulled from working technicians. Filter with the search box — try <b>"transparency"</b>, <b>"margin"</b>, or <b>"view"</b>.</p>
